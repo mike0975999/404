@@ -3,6 +3,7 @@ from sqlmodel import Session, select
 from app.database import engine
 from app.models import Book, Chapter
 from app.chapter_utils import extract_text_from_pdf_url, split_into_chapters
+from app.seed import seed_books
 
 router = APIRouter()
 
@@ -83,3 +84,8 @@ def get_chapter(chapter_id: int):
         if not chapter:
             return {"error": "Chapter not found"}
         return chapter
+    
+@router.post("/admin/seed-books")
+def seed_books_route():
+    seed_books()
+    return {"message": "books seeded"}

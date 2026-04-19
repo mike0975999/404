@@ -1,4 +1,4 @@
-from sqlmodel import Session
+from sqlmodel import Session, select
 from app.database import engine
 from app.models import Book
 
@@ -88,7 +88,7 @@ def seed_books():
             year_level=2,
             subject="Programming / Software Engineering",
             description="Software engineering reference material.",
-            pdf_url="https://iansommerville.com/software-engineering-book/",
+            pdf_url="",
             cover_url="",
             source="custom_pdf"
         ),
@@ -117,6 +117,11 @@ def seed_books():
     ]
 
     with Session(engine) as session:
+        existing_books = session.exec(select(Book)).all()
+        for old_book in existing_books:
+            session.delete(old_book)
+        session.commit()
+
         for book in books:
             session.add(book)
         session.commit()
