@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+sqlmodel
+pymysql
+python-dotenv
+requests
+openai
+pymupdf
